@@ -1,6 +1,6 @@
 'use strict';
 
-var LENGTH_ARR_PHOTO = 6;
+var LENGTH_ARR_PHOTO = 25;
 var LIKE_START = 15;
 var LIKE_END = 200;
 var LENGTH_ARR_PICTURE = 25;
@@ -11,7 +11,7 @@ var DESCRIPTION = ['Всё отлично!', 'В целом всё неплох�
 
 var NAME_AUTHOR = ['Лев', 'Александр', 'Игорь', 'Даниил', 'Владимир', 'Антон', 'Михаил', 'Екатерина', 'Варвара', 'София'];
 
-document.querySelector('.pictures').classList.remove('hidden');
+/*document.querySelector('.pictures').classList.remove('hidden');*/
 var similarListElement = document.querySelector('.picture');
 var similarPictureTemplate = document.querySelector('#picture')
   .content
@@ -34,7 +34,7 @@ for (var j = LIKE_START; j <= LIKE_END; j++) {
 var pictures = [];
 for (var k = 0; k < LENGTH_ARR_PICTURE; k++) {
   var randomPicture = {
-    url: numberPhoto[getRandomElement(numberPhoto)] + '.jpg',
+    url: 'photos/' + numberPhoto[k] + '.jpg',
     message: DESCRIPTION[getRandomElement(DESCRIPTION)],
     like: likes[getRandomElement(likes)],
     name: NAME_AUTHOR[getRandomElement(NAME_AUTHOR)]
@@ -58,4 +58,4 @@ pictures.forEach(function (l) {
 });
 
 similarListElement.appendChild(fragment);
-document.querySelector('.big-picture').classList.remove('hidden');
+/*document.querySelector('.pictures').classList.remove('hidden');*/
