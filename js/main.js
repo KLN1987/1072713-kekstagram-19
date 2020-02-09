@@ -21,6 +21,11 @@ var getRandomElement = function (arr) {
   return Math.floor(Math.random() * arr.length);
 };
 
+var numberAvatar = [];
+for (var g = 0; g <= 6; g++) {
+  numberAvatar.push(g);
+}
+
 var numberPhoto = [];
 for (var i = 1; i <= LENGTH_ARR_PHOTO; i++) {
   numberPhoto.push(i);
@@ -35,9 +40,12 @@ var pictures = [];
 for (var k = 0; k < LENGTH_ARR_PICTURE; k++) {
   var randomPicture = {
     url: 'photos/' + numberPhoto[k] + '.jpg',
-    message: DESCRIPTION[getRandomElement(DESCRIPTION)],
     like: likes[getRandomElement(likes)],
-    name: NAME_AUTHOR[getRandomElement(NAME_AUTHOR)]
+    comments: {
+      avatar: 'img/avatar-' + numberAvatar[getRandomElement(numberAvatar)] + '.svg',
+      message: DESCRIPTION[getRandomElement(DESCRIPTION)],
+      name: NAME_AUTHOR[getRandomElement(NAME_AUTHOR)]
+    }
   };
   pictures.push(randomPicture);
 }
@@ -46,8 +54,9 @@ var renderPicture = function (picture) {
   var pictureElement = similarPictureTemplate.cloneNode(true);
 
   pictureElement.querySelector('.picture__img').src = picture.url;
-  pictureElement.querySelector('.picture__comments').textContent = picture.message;
   pictureElement.querySelector('.picture__likes').textContent = picture.like;
+  pictureElement.querySelector('.picture__comments').textContent = picture.message;
+
   return pictureElement;
 };
 
