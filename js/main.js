@@ -34,7 +34,7 @@ for (var j = LIKE_START; j <= LIKE_END; j++) {
 var pictures = [];
 for (var k = 0; k < LENGTH_ARR_PICTURE; k++) {
   var randomPicture = {
-    avatar: 'img/avatar-' + numberPhoto[getRandomElement(numberPhoto)] + '.svg',
+    url: numberPhoto[getRandomElement(numberPhoto)] + '.jpg',
     message: DESCRIPTION[getRandomElement(DESCRIPTION)],
     like: likes[getRandomElement(likes)],
     name: NAME_AUTHOR[getRandomElement(NAME_AUTHOR)]
@@ -45,7 +45,7 @@ for (var k = 0; k < LENGTH_ARR_PICTURE; k++) {
 var renderPicture = function (picture) {
   var pictureElement = similarPictureTemplate.cloneNode(true);
 
-  pictureElement.querySelector('.picture__img').src = picture.avatar;
+  pictureElement.querySelector('.picture__img').src = picture.url;
   pictureElement.querySelector('.picture__comments').textContent = picture.message;
   pictureElement.querySelector('.picture__likes').textContent = picture.like;
   return pictureElement;
