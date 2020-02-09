@@ -11,8 +11,8 @@ var DESCRIPTION = ['Всё отлично!', 'В целом всё неплох�
 
 var NAME_AUTHOR = ['Лев', 'Александр', 'Игорь', 'Даниил', 'Владимир', 'Антон', 'Михаил', 'Екатерина', 'Варвара', 'София'];
 
-/*document.querySelector('.pictures').classList.remove('hidden');*/
-var similarListElement = document.querySelector('.picture');
+document.querySelector('.pictures').classList.remove('hidden');
+var similarListElement = document.querySelector('.pictures');
 var similarPictureTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
@@ -58,4 +58,4 @@ pictures.forEach(function (l) {
 });
 
 similarListElement.appendChild(fragment);
-/*document.querySelector('.pictures').classList.remove('hidden');*/
+document.querySelector('.pictures').classList.remove('hidden');
