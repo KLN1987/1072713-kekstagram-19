@@ -69,9 +69,6 @@ pictures.forEach(function (l) {
 
 similarListElement.appendChild(fragment);
 
-
-//большая картинка
-
 document.querySelector('.big-picture').classList.remove('hidden');
 document.querySelector('.social__comment-count').classList.add('hidden');
 document.querySelector('.comments-loader').classList.add('hidden');
