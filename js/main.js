@@ -4,7 +4,7 @@ var LENGTH_ARR_PHOTO = 25;
 var LIKE_START = 15;
 var LIKE_END = 200;
 var LENGTH_ARR_PICTURE = 25;
-var COUNT_OF_COMMENTS = 15;
+var COUNT_OF_COMMENTS = 3;
 
 var DESCRIPTION = ['Всё отлично!', 'В целом всё неплохо. Но не всё.', 'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
   'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.', 'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
@@ -37,17 +37,23 @@ for (var j = LIKE_START; j <= LIKE_END; j++) {
   likes.push(j);
 }
 
+var comments = [];
+for (var t = 0; t < COUNT_OF_COMMENTS; t++) {
+  var randomComment = {
+    avatar: 'img/avatar-' + numberAvatar[getRandomElement(numberAvatar)] + '.svg',
+    name: NAME_AUTHOR[getRandomElement(NAME_AUTHOR)],
+    message: DESCRIPTION[getRandomElement(DESCRIPTION)]
+  };
+  comments.push(randomComment);
+}
+
 var pictures = [];
 for (var k = 0; k < LENGTH_ARR_PICTURE; k++) {
   var randomPicture = {
     url: 'photos/' + numberPhoto[k] + '.jpg',
     like: likes[getRandomElement(likes)],
     description: 'описание фото',
-    comments: {
-      avatar: 'img/avatar-' + numberAvatar[getRandomElement(numberAvatar)] + '.svg',
-      name: NAME_AUTHOR[getRandomElement(NAME_AUTHOR)],
-      message: DESCRIPTION[getRandomElement(DESCRIPTION)]
-    }
+    comments: comments
   };
   pictures.push(randomPicture);
 }
@@ -81,16 +87,16 @@ var bigPictureComments = document.querySelector('.comments-count');
 var bigPictureDescription = document.querySelector('.social__caption');
 bigPicture.src = pictures[0].url;
 bigPictureLikes.textContent = pictures[0].like;
-bigPictureComments.textContent = COUNT_OF_COMMENTS;
+bigPictureComments.textContent = pictures[0].comments.length;
 bigPictureDescription.textContent = pictures[0].description;
 
 var commentsList = document.querySelector('.social__comments');
-for (var n = 0; n < COUNT_OF_COMMENTS; n++) {
+for (var n = 0; n < pictures[0].comments.length; n++) {
   var commentsItem = document.createElement('li');
-  commentsItem.classList.add('.social__comment');
+  commentsItem.classList.add('social__comment');
   commentsList.appendChild(commentsItem);
   var socialPicture = document.createElement('img');
-  socialPicture.classList.add('.social__picture');
+  socialPicture.classList.add('social__picture');
   socialPicture.src = pictures[0].comments[n].avatar;
   socialPicture.alt = pictures[0].comments[n].name;
   commentsItem.appendChild(socialPicture);
