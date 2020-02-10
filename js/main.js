@@ -38,7 +38,7 @@ for (var j = LIKE_START; j <= LIKE_END; j++) {
 }
 
 var comments = [];
-for (var t = 0; t < COUNT_OF_COMMENTS; t++) {
+for (var t = 0; t <= COUNT_OF_COMMENTS; t++) {
   var randomComment = {
     avatar: 'img/avatar-' + numberAvatar[getRandomElement(numberAvatar)] + '.svg',
     name: NAME_AUTHOR[getRandomElement(NAME_AUTHOR)],
@@ -79,7 +79,7 @@ document.querySelector('.big-picture').classList.remove('hidden');
 document.querySelector('.social__comment-count').classList.add('hidden');
 document.querySelector('.comments-loader').classList.add('hidden');
 document.querySelector('body').classList.add('modal-open');
-
+document.querySelector('.social__comments').innerHtml = '';
 
 var bigPicture = document.querySelector('.big-picture__img');
 var bigPictureLikes = document.querySelector('.likes-count');
@@ -92,6 +92,7 @@ bigPictureDescription.textContent = pictures[0].description;
 
 var commentsList = document.querySelector('.social__comments');
 for (var n = 0; n < pictures[0].comments.length; n++) {
+  document.querySelector('.social__comment').remove();
   var commentsItem = document.createElement('li');
   commentsItem.classList.add('social__comment');
   commentsList.appendChild(commentsItem);
