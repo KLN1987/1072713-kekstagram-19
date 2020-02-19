@@ -130,3 +130,65 @@ document.querySelector('#effect-heat').addEventListener('click', function () {
   imgUploadPreview.querySelector('img').style.filter = 'blur(' + MAX_BRIGHTNES * levelPinValueStyleLeftInt / MAX_VALUE_EFFECT + ')';
   imgUploadEffectLevel.classList.remove('hidden');
 });
+
+var hashtagText = document.querySelector('.text__hashtags');
+var uploadSubmit = document.querySelector('#upload-submit');
+
+var validateHashtag = function (hashtag) {
+  if (hashtag[0] !== '#') {
+    hashtagText.setCustomValidity('Хэш-тег начинается с символа #');
+    return false;
+  } else if (hashtag.length < 2) {
+    hashtagText.setCustomValidity('Хеш-тег не может состоять только из одной решётки');
+    return false;
+  } else if (hashtag.length > 20) {
+    hashtagText.setCustomValidity('Максимальная длина одного хэш-тега 20 символов включая решетку');
+    return false;
+  } else if (hashtag.indexOf('#', 1) > 0) {
+    hashtagText.setCustomValidity('Хэш-теги разделяются пробелами');
+    return false;
+  }
+  return true;
+};
+
+var onInputInput = function () {
+  hashtagText.setCustomValidity('');
+};
+
+/* hashtagText.addEventListener('input', function (evt) {
+  var target = evt.target;
+  var hashtagArray = target.value.toLowerCase().split(' ');
+  for (var i = 0; i < hashtagArray.length; i++) {
+    var isHashtagValid = target(hashtagArray[i]);
+    if (!isHashtagValid) {
+      break;
+    }
+    if (hashtagArray.indexOf(hashtagArray[i], i + 1) > 0) {
+      hashtagText.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды');
+      break;
+    }
+  }
+  if (hashtagArray.length > 5) {
+    hashtagText.setCustomValidity('Хэштегов может быть максимум 5');
+});*/
+
+uploadSubmit.addEventListener('click', function () {
+  if (hashtagText.value !== '') {
+    var hashtagArray = hashtagText.value.toLowerCase().split(' ');
+    for (var i = 0; i < hashtagArray.length; i++) {
+      var isHashtagValid = validateHashtag(hashtagArray[i]);
+      if (!isHashtagValid) {
+        break;
+      }
+      if (hashtagArray.indexOf(hashtagArray[i], i + 1) > 0) {
+        hashtagText.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды');
+        break;
+      }
+    }
+    if (hashtagArray.length > 5) {
+      hashtagText.setCustomValidity('Хэштегов может быть максимум 5');
+    }
+  }
+});
+
+hashtagText.addEventListener('input', onInputInput);
