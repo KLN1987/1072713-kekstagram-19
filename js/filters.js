@@ -19,16 +19,19 @@ var effectRadio = document.querySelector('.effects__radio');*/
 var hashtagText = document.querySelector('.text__hashtags');
 var uploadSubmit = document.querySelector('#upload-submit');
 
+/* функция открытия закрытого окна */
 var openPopup = function () {
   uploadForm.classList.remove('hidden');
   document.addEventListener('keydown', onPopupEscPress);
 };
 
+/* функция закрытия открытого окна */
 var closePopup = function () {
   uploadForm.classList.add('hidden');
   document.removeEventListener('keydown', onPopupEscPress);
 };
 
+/* закрытие на ESC и не закрытие, если курсор в поле ввода хэштега */
 var onPopupEscPress = function (evt) {
   if (hashtagText === document.activeElement) {
     hashtagText.setCustomValidity('Введите хэштег или уберите курсор из поля ввода');
@@ -41,22 +44,26 @@ var onPopupEscPress = function (evt) {
   return true;
 };
 
+/* открытие формы */
 uploadFile.addEventListener('change', function () {
   openPopup();
 });
 
+/* открытие с клавиатуры через Enter */
 uploadFile.addEventListener('keydown', function (evt) {
   if (evt.key === ENTER_KEY) {
     openPopup();
   }
 });
 
+/* закрытие и сброс при этом до класса .effect-none */
 uploadCancel.addEventListener('click', function () {
   closePopup();
   imgUploadPreview.querySelector('img').classList.remove('.effect-chrome', '.effect-sepia', '.effect-marvin', '.effect-phobos', '.effect-heat');
   imgUploadPreview.querySelector('img').classList.add('.effect-none');
 });
 
+/* закрытие и сброс при этом до класса .effect-noneпр нажатии на Enter*/
 uploadCancel.addEventListener('keydown', function (evt) {
   if (evt.key === ENTER_KEY) {
     closePopup();
@@ -65,6 +72,7 @@ uploadCancel.addEventListener('keydown', function (evt) {
   }
 });
 
+/* уменьшение фото при нажатии на минус до 25% */
 scaleControlMinus.addEventListener('click', function () {
   if (DEFAULT_VALUE > DEFAULT_VALUE_MIN) {
     DEFAULT_VALUE = DEFAULT_VALUE - DEFAULT_VALUE_STEP;
@@ -74,6 +82,7 @@ scaleControlMinus.addEventListener('click', function () {
   }
 });
 
+/* увеличение фото при нажатии на минус до 100% */
 scaleControlPlus.addEventListener('click', function () {
   if (DEFAULT_VALUE < DEFAULT_VALUE_MAX && DEFAULT_VALUE >= DEFAULT_VALUE_MIN) {
     DEFAULT_VALUE = DEFAULT_VALUE + DEFAULT_VALUE_STEP;
@@ -103,6 +112,8 @@ var levelPinValue = function (elm) {
 };
 console.log('grayscale(' + (MAX_GRAYSCALE * levelPinValue(effectLevelPin) / MAX_VALUE_EFFECT) + ')');
 */
+
+/* переключение стилей для фото */
 document.querySelector('#effect-none').addEventListener('click', function () {
   imgUploadPreview.querySelector('img').classList.remove('.effect-chrome', '.effect-sepia', '.effect-marvin', '.effect-phobos', '.effect-heat');
   imgUploadPreview.querySelector('img').classList.add('.effect-none');
@@ -177,7 +188,7 @@ effectRadio.addEventListener('click', function () {
 });
 */
 
-/* hashtag */
+/* проверка правильности ввода хэштегов */
 
 var validateHashtag = function (hashtag) {
   if (hashtag[0] !== '#') {
