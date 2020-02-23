@@ -1,15 +1,16 @@
 'use strict';
-
+/* задаем постоянные значения*/
 var LENGTH_ARR_PHOTO = 25;
 var LIKE_START = 15;
 var LIKE_END = 200;
 var LENGTH_ARR_PICTURE = 25;
 var COUNT_OF_COMMENTS = 3;
 
+/* массив комментариев*/
 var DESCRIPTION = ['Всё отлично!', 'В целом всё неплохо. Но не всё.', 'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
   'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.', 'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'];
-
+/* имя автора комента */
 var NAME_AUTHOR = ['Лев', 'Александр', 'Игорь', 'Даниил', 'Владимир', 'Антон', 'Михаил', 'Екатерина', 'Варвара', 'София'];
 
 var similarListElement = document.querySelector('.pictures');
@@ -17,26 +18,30 @@ var similarPictureTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
 
-
+/* нахождение рандомного чила */
 var getRandomElement = function (arr) {
   return Math.floor(Math.random() * arr.length);
 };
 
+/* массив аватарок */
 var numberAvatar = [];
 for (var g = 0; g <= 6; g++) {
   numberAvatar.push(g);
 }
 
+/* массив номера фото */
 var numberPhoto = [];
 for (var i = 1; i <= LENGTH_ARR_PHOTO; i++) {
   numberPhoto.push(i);
 }
 
+/* массив лайков */
 var likes = [];
 for (var j = LIKE_START; j <= LIKE_END; j++) {
   likes.push(j);
 }
 
+/* массив со случайными комментариями */
 var comments = [];
 for (var t = 0; t < COUNT_OF_COMMENTS; t++) {
   var randomComment = {
@@ -47,6 +52,7 @@ for (var t = 0; t < COUNT_OF_COMMENTS; t++) {
   comments.push(randomComment);
 }
 
+/* массив со случайными картнками */
 var pictures = [];
 for (var k = 0; k < LENGTH_ARR_PICTURE; k++) {
   var randomPicture = {
@@ -58,6 +64,7 @@ for (var k = 0; k < LENGTH_ARR_PICTURE; k++) {
   pictures.push(randomPicture);
 }
 
+/* функция добавляет в template, случайныt картиками, кол-вом лайков, и комментов  */
 var renderPicture = function (picture) {
   var pictureElement = similarPictureTemplate.cloneNode(true);
 
@@ -68,6 +75,7 @@ var renderPicture = function (picture) {
   return pictureElement;
 };
 
+/* создает фрагмент в DOM и вставляем в разметку, полученный ранее template */
 var fragment = document.createDocumentFragment();
 pictures.forEach(function (l) {
   fragment.appendChild(renderPicture(l));
@@ -75,6 +83,7 @@ pictures.forEach(function (l) {
 
 similarListElement.appendChild(fragment);
 
+/* remove-удаляет класс hidden у объекта,  add-добавлет класс */
 document.querySelector('.big-picture').classList.remove('hidden');
 document.querySelector('.social__comment-count').classList.add('hidden');
 document.querySelector('.comments-loader').classList.add('hidden');
@@ -86,6 +95,8 @@ var bigPicture = document.querySelector('.big-picture__img');
 var bigPictureLikes = document.querySelector('.likes-count');
 var bigPictureComments = document.querySelector('.comments-count');
 var bigPictureDescription = document.querySelector('.social__caption');
+
+/* добавляет картинку, кол-во лайков, комменты, описание(случайные) на большую фотку */
 bigPicture.src = pictures[0].url;
 bigPictureLikes.textContent = pictures[0].like;
 bigPictureComments.textContent = pictures[0].comments.length;
@@ -94,6 +105,7 @@ bigPictureDescription.textContent = pictures[0].description;
 var commentsList = document.querySelector('.social__comments');
 commentsList.textContent = '';
 
+/* создается цикл который при открытии большой фотки добавляет случайные лайки, комменты, имя, аватар */
 for (var n = 0; n < pictures[0].comments.length; n++) {
   var commentsItem = document.createElement('li');
   commentsItem.classList.add('social__comment');
