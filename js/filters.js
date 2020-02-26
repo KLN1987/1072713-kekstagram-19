@@ -103,7 +103,7 @@ var levelPinValueStyleLeft = parseFloat(getValueStyleLeft);
 // var levelPinValueStyleLeftInt = parseInt(getValueStyleLeft, 10);
 
 
-/* переключение стилей для фото */
+/* переключение стилей для фото и событие moseup*/
 document.querySelector('#effect-none').addEventListener('click', function () {
   // imgUploadPreview.querySelector('img').classList.remove('.effect-chrome', '.effect-sepia', '.effect-marvin', '.effect-phobos', '.effect-heat');
   imgUploadPreview.querySelector('img').removeAttribute('class');
