@@ -117,6 +117,9 @@ document.querySelector('#effect-chrome').addEventListener('click', function () {
   imgUploadPreview.querySelector('img').classList.add('.effect-chrome');
   imgUploadPreview.querySelector('img').style.filter = 'grayscale(' + (MAX_GRAYSCALE * levelPinValueStyleLeft / MAX_VALUE_EFFECT) + ')';
   imgUploadEffectLevel.classList.remove('hidden');
+  effectLevelPin.addEventListener('mouseup', function () {
+    imgUploadPreview.querySelector('img').style.filter = 'grayscale(' + (MAX_GRAYSCALE * levelPinValueStyleLeft / MAX_VALUE_EFFECT) + ')';
+  });
 });
 document.querySelector('#effect-sepia').addEventListener('click', function () {
   // imgUploadPreview.querySelector('img').classList.remove('.effect-none', '.effect-chrome', '.effect-marvin', '.effect-phobos', '.effect-heat');
@@ -124,6 +127,9 @@ document.querySelector('#effect-sepia').addEventListener('click', function () {
   imgUploadPreview.querySelector('img').classList.add('.effect-sepia');
   imgUploadPreview.querySelector('img').style.filter = 'sepia(' + (MAX_SEPIA * levelPinValueStyleLeft / MAX_VALUE_EFFECT) + ')';
   imgUploadEffectLevel.classList.remove('hidden');
+  effectLevelPin.addEventListener('mouseup', function () {
+    imgUploadPreview.querySelector('img').style.filter = 'sepia(' + (MAX_SEPIA * levelPinValueStyleLeft / MAX_VALUE_EFFECT) + ')';
+  });
 });
 document.querySelector('#effect-marvin').addEventListener('click', function () {
   // imgUploadPreview.querySelector('img').classList.remove('.effect-none', '.effect-chrome', '.effect-sepia', '.effect-phobos', '.effect-heat');
@@ -131,6 +137,9 @@ document.querySelector('#effect-marvin').addEventListener('click', function () {
   imgUploadPreview.querySelector('img').classList.add('.effect-marvin');
   imgUploadPreview.querySelector('img').style.filter = 'invert(' + (MAX_INVERT * levelPinValueStyleLeft / MAX_VALUE_EFFECT) + '%' + ')';
   imgUploadEffectLevel.classList.remove('hidden');
+  effectLevelPin.addEventListener('mouseup', function () {
+    imgUploadPreview.querySelector('img').style.filter = 'invert(' + (MAX_INVERT * levelPinValueStyleLeft / MAX_VALUE_EFFECT) + '%' + ')';
+  });
 });
 document.querySelector('#effect-phobos').addEventListener('click', function () {
   // imgUploadPreview.querySelector('img').classList.remove('.effect-none', '.effect-chrome', '.effect-sepia', '.effect-marvin', '.effect-heat');
@@ -138,6 +147,9 @@ document.querySelector('#effect-phobos').addEventListener('click', function () {
   imgUploadPreview.querySelector('img').classList.add('.effect-phobos');
   imgUploadPreview.querySelector('img').style.filter = 'blur(' + (MAX_BLUR * levelPinValueStyleLeft / MAX_VALUE_EFFECT) + 'px' + ')';
   imgUploadEffectLevel.classList.remove('hidden');
+  effectLevelPin.addEventListener('mouseup', function () {
+    imgUploadPreview.querySelector('img').style.filter = 'blur(' + (MAX_BLUR * levelPinValueStyleLeft / MAX_VALUE_EFFECT) + 'px' + ')';
+  });
 });
 document.querySelector('#effect-heat').addEventListener('click', function () {
   // imgUploadPreview.querySelector('img').classList.remove('.effect-chrome', '.effect-sepia', '.effect-marvin', '.effect-phobos', '.effect-none');
@@ -145,6 +157,9 @@ document.querySelector('#effect-heat').addEventListener('click', function () {
   imgUploadPreview.querySelector('img').classList.add('.effect-heat');
   imgUploadPreview.querySelector('img').style.filter = 'brightness(' + (MIN_BRIGHTNES + levelPinValueStyleLeft * 2 / MAX_VALUE_EFFECT) + ')';
   imgUploadEffectLevel.classList.remove('hidden');
+  effectLevelPin.addEventListener('mouseup', function () {
+    imgUploadPreview.querySelector('img').style.filter = 'brightness(' + (MIN_BRIGHTNES + levelPinValueStyleLeft * 2 / MAX_VALUE_EFFECT) + ')';
+  });
 });
 
 /* проверка правильности ввода хэштегов */
