@@ -18,12 +18,12 @@ var spanEffect = document.querySelectorAll('.effects__preview');
 var hashtagText = document.querySelector('.text__hashtags');
 var uploadSubmit = document.querySelector('#upload-submit');
 
-/* var MAX_VALUE_EFFECT = 100;
+var MAX_VALUE_EFFECT = 465;
 var MAX_GRAYSCALE = 1;
 var MAX_SEPIA = 1;
 var MAX_INVERT = 100;
 var MAX_BLUR = 3;
-var MIN_BRIGHTNES = 1;*/
+var MIN_BRIGHTNES = 1;
 
 /* функция открытия закрытого окна */
 var openPopup = function () {
@@ -113,35 +113,37 @@ for (var j = 0; j < spanEffect.length; j++) {
     imgUploadEffectLevel.classList.remove('hidden');
     if (evt.target.classList.contains('effects__preview--none')) {
       imgUploadPreview.querySelector('img').classList.add('.effect-none');
-      // imgUploadPreview.querySelector('img').style.filter = 'none';
+      imgUploadPreview.querySelector('img').style.filter = 'none';
       imgUploadEffectLevel.classList.add('hidden');
     } else if (evt.target.classList.contains('effects__preview--chrome')) {
       imgUploadPreview.querySelector('img').classList.add('.effect-chrome');
-      // imgUploadPreview.querySelector('img').style.filter = 'grayscale(' + (MAX_GRAYSCALE * levelPinValueStyleLeft / MAX_VALUE_EFFECT) + ')';
+      imgUploadPreview.querySelector('img').style.filter = 'grayscale(' + (MAX_GRAYSCALE * effectLevelValue.value / MAX_VALUE_EFFECT) + ')';
     } else if (evt.target.classList.contains('effects__preview--sepia')) {
       imgUploadPreview.querySelector('img').removeAttribute('class');
       imgUploadPreview.querySelector('img').classList.add('.effect-sepia');
-      // imgUploadPreview.querySelector('img').style.filter = 'sepia(' + (MAX_SEPIA * levelPinValueStyleLeft / MAX_VALUE_EFFECT) + ')';
+      imgUploadPreview.querySelector('img').style.filter = 'sepia(' + (MAX_SEPIA * effectLevelValue.value / MAX_VALUE_EFFECT) + ')';
     } else if (evt.target.classList.contains('effects__preview--marvin')) {
       imgUploadPreview.querySelector('img').removeAttribute('class');
       imgUploadPreview.querySelector('img').classList.add('.effect-marvin');
-      // imgUploadPreview.querySelector('img').style.filter = 'invert(' + (MAX_INVERT * levelPinValueStyleLeft / MAX_VALUE_EFFECT) + '%' + ')';
+      imgUploadPreview.querySelector('img').style.filter = 'invert(' + (MAX_INVERT * effectLevelValue.value / MAX_VALUE_EFFECT) + '%' + ')';
     } else if (evt.target.classList.contains('effects__preview--phobos')) {
       imgUploadPreview.querySelector('img').removeAttribute('class');
       imgUploadPreview.querySelector('img').classList.add('.effect-phobos');
-      // imgUploadPreview.querySelector('img').style.filter = 'blur(' + (MAX_BLUR * levelPinValueStyleLeft / MAX_VALUE_EFFECT) + 'px' + ')';
+      imgUploadPreview.querySelector('img').style.filter = 'blur(' + (MAX_BLUR * effectLevelValue.value / MAX_VALUE_EFFECT) + 'px' + ')';
     } else if (evt.target.classList.contains('effects__preview--heat')) {
       imgUploadPreview.querySelector('img').removeAttribute('class');
       imgUploadPreview.querySelector('img').classList.add('.effect-heat');
-      // imgUploadPreview.querySelector('img').style.filter = 'brightness(' + (MIN_BRIGHTNES + levelPinValueStyleLeft * 2 / MAX_VALUE_EFFECT) + ')';
+      imgUploadPreview.querySelector('img').style.filter = 'brightness(' + (MIN_BRIGHTNES + effectLevelValue.value * 2 / MAX_VALUE_EFFECT) + ')';
     }
   });
 }
 var effectLevel = document.querySelector('.effect-level');
-// var effectLevelValue = document.querySelector('.effect-level__value');
-var effectLevelPin = effectLevel.querySelector('.effect-level__pin');
+var effectLevelValue = effectLevel.querySelector('.effect-level__value');
+var effectLevelLine = document.querySelector('.effect-level__line');
+var effectLevelPin = effectLevelLine.querySelector('.effect-level__pin');
+var effectLevelDepth = effectLevelLine.querySelector('.effect-level__depth');
 
-effectLevelPin.addEventListener('mosedown', function (evt) {
+effectLevelPin.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
 
   var startCoordX = evt.clientX;
@@ -154,6 +156,8 @@ effectLevelPin.addEventListener('mosedown', function (evt) {
     startCoordX = moveEvt.clientX;
 
     effectLevelPin.style.left = (effectLevelPin.offsetLeft - shiftX) + 'px';
+    effectLevelDepth.style.width = (effectLevelPin.offsetLeft - shiftX) + 'px';
+    effectLevelValue.value = parseFloat(effectLevelPin.style.left);
   };
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
