@@ -101,6 +101,42 @@ scaleControlPlus.addEventListener('click', function () {
   }
 });
 
+var filter = '';
+/* переключение стилей для фото и событие moseup*/
+for (var j = 0; j < spanEffect.length; j++) {
+  spanEffect[j].addEventListener('click', function (evt) {
+    effectLevelPin.style.left = MAX_VALUE_EFFECT + 'px';
+    effectLevelDepth.style.width = MAX_VALUE_EFFECT + 'px';
+    effectLevelValue.value = MAX_VALUE_EFFECT;
+    imgUploadPreview.querySelector('img').removeAttribute('class');
+    imgUploadEffectLevel.classList.remove('hidden');
+    if (evt.target.classList.contains('effects__preview--none')) {
+      imgUploadPreview.querySelector('img').classList.add('.effect-none');
+      imgUploadPreview.querySelector('img').style.filter = 'none';
+      imgUploadEffectLevel.classList.add('hidden');
+    } else if (evt.target.classList.contains('effects__preview--chrome')) {
+      imgUploadPreview.querySelector('img').classList.add('.effect-chrome');
+      filter = 'grayscale';
+      imgUploadPreview.querySelector('img').style.filter = 'grayscale(' + (MAX_GRAYSCALE * effectLevelValue.value / MAX_VALUE_EFFECT) + ')';
+    } else if (evt.target.classList.contains('effects__preview--sepia')) {
+      imgUploadPreview.querySelector('img').classList.add('.effect-sepia');
+      filter = 'sepia';
+      imgUploadPreview.querySelector('img').style.filter = 'sepia(' + (MAX_SEPIA * effectLevelValue.value / MAX_VALUE_EFFECT) + ')';
+    } else if (evt.target.classList.contains('effects__preview--marvin')) {
+      imgUploadPreview.querySelector('img').classList.add('.effect-marvin');
+      filter = 'invert';
+      imgUploadPreview.querySelector('img').style.filter = 'invert(' + (MAX_INVERT * effectLevelValue.value / MAX_VALUE_EFFECT) + '%' + ')';
+    } else if (evt.target.classList.contains('effects__preview--phobos')) {
+      imgUploadPreview.querySelector('img').classList.add('.effect-phobos');
+      filter = 'blur';
+      imgUploadPreview.querySelector('img').style.filter = 'blur(' + (MAX_BLUR * effectLevelValue.value / MAX_VALUE_EFFECT) + 'px' + ')';
+    } else if (evt.target.classList.contains('effects__preview--heat')) {
+      imgUploadPreview.querySelector('img').classList.add('.effect-heat');
+      filter = 'brightness';
+      imgUploadPreview.querySelector('img').style.filter = 'brightness(' + (MIN_BRIGHTNES + effectLevelValue.value * 2 / MAX_VALUE_EFFECT) + ')';
+    }
+  });
+}
 var effectLevel = document.querySelector('.effect-level');
 var effectLevelValue = effectLevel.querySelector('.effect-level__value');
 var effectLevelLine = effectLevel.querySelector('.effect-level__line');
@@ -125,6 +161,17 @@ effectLevelPin.addEventListener('mousedown', function (evt) {
     effectLevelPin.style.left = (effectLevelPin.offsetLeft - shiftX) + 'px';
     effectLevelDepth.style.width = effectLevelPin.style.left;
     effectLevelValue.setAttribute('value', parseFloat(effectLevelPin.style.left));
+    if (filter === 'grayscale') {
+      imgUploadPreview.querySelector('img').style.filter = 'grayscale(' + (MAX_GRAYSCALE * effectLevelValue.value / MAX_VALUE_EFFECT) + ')';
+    } else if (filter === 'sepia') {
+      imgUploadPreview.querySelector('img').style.filter = 'sepia(' + (MAX_SEPIA * effectLevelValue.value / MAX_VALUE_EFFECT) + ')';
+    } else if (filter === 'invert') {
+      imgUploadPreview.querySelector('img').style.filter = 'invert(' + (MAX_INVERT * effectLevelValue.value / MAX_VALUE_EFFECT) + '%' + ')';
+    } else if (filter === 'blur') {
+      imgUploadPreview.querySelector('img').style.filter = 'blur(' + (MAX_BLUR * effectLevelValue.value / MAX_VALUE_EFFECT) + 'px' + ')';
+    } else if (filter === 'brightness') {
+      imgUploadPreview.querySelector('img').style.filter = 'brightness(' + (MIN_BRIGHTNES + effectLevelValue.value * 2 / MAX_VALUE_EFFECT) + ')';
+    }
 
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
@@ -133,79 +180,6 @@ effectLevelPin.addEventListener('mousedown', function (evt) {
   document.addEventListener('mousemove', onMouseMove);
   document.addEventListener('mouseup', onMouseUp);
 });
-/* переключение стилей для фото и событие moseup*/
-for (var j = 0; j < spanEffect.length; j++) {
-  spanEffect[j].addEventListener('click', function (evt) {
-    effectLevelPin.style.left = MAX_VALUE_EFFECT + 'px';
-    effectLevelDepth.style.width = MAX_VALUE_EFFECT + 'px';
-    // effectLevelValue.value = MAX_VALUE_EFFECT;
-    imgUploadPreview.querySelector('img').removeAttribute('class');
-    imgUploadEffectLevel.classList.remove('hidden');
-    if (evt.target.classList.contains('effects__preview--none')) {
-      imgUploadPreview.querySelector('img').classList.add('.effect-none');
-      imgUploadPreview.querySelector('img').style.filter = 'none';
-      imgUploadEffectLevel.classList.add('hidden');
-    } else if (evt.target.classList.contains('effects__preview--chrome')) {
-      imgUploadPreview.querySelector('img').classList.add('.effect-chrome');
-      imgUploadPreview.querySelector('img').style.filter = 'grayscale(' + (MAX_GRAYSCALE * effectLevelValue.value / MAX_VALUE_EFFECT) + ')';
-    } else if (evt.target.classList.contains('effects__preview--sepia')) {
-      imgUploadPreview.querySelector('img').classList.add('.effect-sepia');
-      imgUploadPreview.querySelector('img').style.filter = 'sepia(' + (MAX_SEPIA * effectLevelValue.value / MAX_VALUE_EFFECT) + ')';
-    } else if (evt.target.classList.contains('effects__preview--marvin')) {
-      imgUploadPreview.querySelector('img').classList.add('.effect-marvin');
-      imgUploadPreview.querySelector('img').style.filter = 'invert(' + (MAX_INVERT * effectLevelValue.value / MAX_VALUE_EFFECT) + '%' + ')';
-    } else if (evt.target.classList.contains('effects__preview--phobos')) {
-      imgUploadPreview.querySelector('img').classList.add('.effect-phobos');
-      imgUploadPreview.querySelector('img').style.filter = 'blur(' + (MAX_BLUR * effectLevelValue.value / MAX_VALUE_EFFECT) + 'px' + ')';
-    } else if (evt.target.classList.contains('effects__preview--heat')) {
-      imgUploadPreview.querySelector('img').classList.add('.effect-heat');
-      imgUploadPreview.querySelector('img').style.filter = 'brightness(' + (MIN_BRIGHTNES + effectLevelValue.value / MAX_VALUE_EFFECT) + ')';
-    }
-  });
-}
-/* var effectLevel = document.querySelector('.effect-level');
-var effectLevelValue = effectLevel.querySelector('.effect-level__value');
-var effectLevelLine = effectLevel.querySelector('.effect-level__line');
-var effectLevelPin = effectLevelLine.querySelector('.effect-level__pin');
-var effectLevelDepth = effectLevelLine.querySelector('.effect-level__depth');
-
-effectLevelPin.addEventListener('mousedown', function (evt) {
-  evt.preventDefault();
-
-  var startCoordX = evt.clientX;
-
-  var onMouseMove = function (moveEvt) {
-    moveEvt.preventDefault();
-
-    var shiftX = startCoordX - moveEvt.clientX;
-
-    startCoordX = moveEvt.clientX;
-
-    effectLevelPin.style.left = (effectLevelPin.offsetLeft - shiftX) + 'px';
-    effectLevelDepth.style.width = (effectLevelPin.offsetLeft - shiftX) + 'px';
-    effectLevelValue.value = parseFloat(effectLevelPin.style.left);
-    /* if (imgUploadPreview.querySelector('img').classList.contains('effect-chrome')) {
-      imgUploadPreview.querySelector('img').style.filter = 'grayscale(' + (MAX_GRAYSCALE * effectLevelValue.value / MAX_VALUE_EFFECT) + ')';
-    } else if (imgUploadPreview.querySelector('img').classList.contains('effect-sepia')) {
-      imgUploadPreview.querySelector('img').style.filter = 'sepia(' + (MAX_SEPIA * effectLevelValue.value / MAX_VALUE_EFFECT) + ')';
-    } else if (imgUploadPreview.querySelector('img').classList.contains('effect-marvin')) {
-      imgUploadPreview.querySelector('img').style.filter = 'invert(' + (MAX_INVERT * effectLevelValue.value / MAX_VALUE_EFFECT) + '%' + ')';
-    } else if (imgUploadPreview.querySelector('img').classList.contains('effect-phobos')) {
-      imgUploadPreview.querySelector('img').style.filter = 'blur(' + (MAX_BLUR * effectLevelValue.value / MAX_VALUE_EFFECT) + 'px' + ')';
-    } else if (imgUploadPreview.querySelector('img').classList.contains('effect-phobos')) {
-      imgUploadPreview.querySelector('img').style.filter = 'brightness(' + (MIN_BRIGHTNES + effectLevelValue.value * 2 / MAX_VALUE_EFFECT) + ')';
-    }
-  };
-  var onMouseUp = function (upEvt) {
-    upEvt.preventDefault();
-
-    document.removeEventListener('mousemove', onMouseMove);
-    document.removeEventListener('mouseup', onMouseUp);
-  };
-
-  document.addEventListener('mousemove', onMouseMove);
-  document.addEventListener('mouseup', onMouseUp);
-});*/
 
 /* проверка правильности ввода хэштегов */
 
