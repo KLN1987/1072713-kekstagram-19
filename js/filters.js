@@ -109,22 +109,20 @@ var EFFECTS_VALUE_MAX = {
   'heat': 3
 };
 
-var currentEffect = 'none';
-var effectsLabel = document.querySelectorAll('.effects__label');
+var effectsRadio = document.querySelector('.effects__radio');
+var currentEffect = document.querySelector('.effects__radio:checked').value;
+// var effectsLabel = document.querySelectorAll('.effects__label');
 var imgForEffect = imgUploadPreview.querySelector('img');
 
-effectsLabel.forEach(function (label) {
-  label.addEventListener('click', onChangeEffectClick);
+effectsRadio.forEach(function (effect) {
+  effect.addEventListener('change', onChangeEffect);
 });
 
-function onChangeEffectClick() {
-  currentEffect = document.querySelector('.effects__radio:checked').value;
+function onChangeEffect() {
+  // currentEffect = document.querySelector('.effects__radio:checked').value;
   imgForEffect.className = 'effects__preview--' + currentEffect;
   setEffectsValue();
-  imgUploadEffectLevel.classList.remove('hidden');
-  if (currentEffect === 'none') {
-    imgUploadEffectLevel.classList.add('hidden');
-  }
+  imgUploadEffectLevel.classList[(currentEffect === 'none') ? 'add' : 'remove']('hidden');
 }
 
 function setEffectsValue() {
