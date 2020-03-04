@@ -101,15 +101,56 @@ scaleControlPlus.addEventListener('click', function () {
   }
 });
 
-// var effectRadio = document.querySelectorAll('.effects__radio');
-var effectLabel = document.querySelectorAll('.effects__label');
-for (var j = 0; j < effectLabel.length; j++) {
-  effectLabel[j].addEventListener('click', function () {
-    imgUploadPreview.querySelector('img').removeAttribute('class');
-    imgUploadEffectLevel.classList.remove('hidden');
-    var effectRadioChecked = document.querySelector('.effects__radio:checked');
-    imgUploadPreview.querySelector('img').classList.add('.effect-' + effectRadioChecked.value);
-  });
+var EFFECTS_VALUE_MAX = {
+  'chrome': 1,
+  'sepia': 1,
+  'marvin': 100,
+  'phobos': 3,
+  'heat': 3
+};
+
+var currentEffect = 'none';
+var effectsLabel = document.querySelectorAll('.effects__label');
+var imgForEffect = imgUploadPreview.querySelector('img');
+
+effectsLabel.forEach(function (label) {
+  label.addEventListener('click', onChangeEffectClick);
+});
+
+function onChangeEffectClick() {
+  currentEffect = document.querySelector('.effects__radio:checked').value;
+  imgForEffect.className = 'effects__preview--' + currentEffect;
+  setEffectsValue();
+  imgUploadEffectLevel.classList.remove('hidden');
+  if (currentEffect === 'none') {
+    imgUploadEffectLevel.classList.add('hidden');
+  }
+}
+
+function setEffectsValue() {
+  var position = effectLevelLine.offsetWidth - effectLevelPin.offsetWidth / 2;
+
+  effectLevelPin.style.left = position + 'px';
+  effectLevelDepth.style.width = position + 'px';
+
+  imgForEffect.style.filter = getEffectsStyle(currentEffect);
+}
+
+function getEffectsStyle(effect, valuePinPosition) {
+  switch (effect) {
+    case 'chrome':
+      return 'grayscale(' + (valuePinPosition * EFFECTS_VALUE_MAX.chrome) + ')';
+    case 'sepia':
+      return 'sepia(' + (valuePinPosition * EFFECTS_VALUE_MAX.sepia) + ')';
+    case 'marvin':
+      return 'invert(' + (valuePinPosition * EFFECTS_VALUE_MAX.marvin) + '%' + ')';
+    case 'phobos':
+      return 'blur(' + (valuePinPosition * EFFECTS_VALUE_MAX.phobos) + 'px' + ')';
+    case 'heat':
+      return 'brightness(' + (1 + (2 * valuePinPosition * EFFECTS_VALUE_MAX.phobos)) + ')';
+    default:
+      return '';
+  }
 }
 
 /* var filter = '';
@@ -168,23 +209,13 @@ effectLevelPin.addEventListener('mousedown', function (evt) {
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
     var shiftX = startCoordX - upEvt.clientX;
+    var coordPin = effectLevelPin.offsetLeft - shiftX;
 
     startCoordX = upEvt.clientX;
 
-    effectLevelPin.style.left = (effectLevelPin.offsetLeft - shiftX) + 'px';
-    effectLevelDepth.style.width = effectLevelPin.style.left;
-    effectLevelValue.setAttribute('value', parseFloat(effectLevelPin.style.left));
-    /* if (filter === 'grayscale') {
-      imgUploadPreview.querySelector('img').style.filter = 'grayscale(' + (MAX_GRAYSCALE * effectLevelValue.value / MAX_VALUE_EFFECT) + ')';
-    } else if (filter === 'sepia') {
-      imgUploadPreview.querySelector('img').style.filter = 'sepia(' + (MAX_SEPIA * effectLevelValue.value / MAX_VALUE_EFFECT) + ')';
-    } else if (filter === 'invert') {
-      imgUploadPreview.querySelector('img').style.filter = 'invert(' + (MAX_INVERT * effectLevelValue.value / MAX_VALUE_EFFECT) + '%' + ')';
-    } else if (filter === 'blur') {
-      imgUploadPreview.querySelector('img').style.filter = 'blur(' + (MAX_BLUR * effectLevelValue.value / MAX_VALUE_EFFECT) + 'px' + ')';
-    } else if (filter === 'brightness') {
-      imgUploadPreview.querySelector('img').style.filter = 'brightness(' + (MIN_BRIGHTNES + effectLevelValue.value * 2 / MAX_VALUE_EFFECT) + ')';
-    }*/
+    effectLevelPin.style.left = coordPin + 'px';
+    effectLevelDepth.style.width = coordPin + 'px';
+    effectLevelValue.setAttribute('value', coordPin);
 
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
