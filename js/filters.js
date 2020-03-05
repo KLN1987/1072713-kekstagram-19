@@ -102,11 +102,27 @@ scaleControlPlus.addEventListener('click', function () {
 });
 
 var EFFECTS_VALUE_MAX = {
-  chrome: 1,
-  sepia: 1,
-  marvin: 100,
-  phobos: 3,
-  heat: 3
+  none: 'none',
+  chrome: {
+    min: 0,
+    max: 1
+  },
+  sepia: {
+    min: 0,
+    max: 1
+  },
+  marvin: {
+    min: 0,
+    max: 100
+  },
+  phobos: {
+    min: 1,
+    max: 3
+  },
+  heat: {
+    min: 1,
+    max: 3
+  },
 };
 
 var effectLevel = document.querySelector('.effect-level');
@@ -140,8 +156,11 @@ function setEffectsValue() {
 }
 
 function getEffectsStyle(effect, value) {
-  var effectValue = (typeof value === 'undefined') ? EFFECTS_VALUE_MAX[effect] : value * EFFECTS_VALUE_MAX[effect];
+  var currentValue = EFFECTS_VALUE_MAX[effect]['min'] + (EFFECTS_VALUE_MAX[effect]['max'] - EFFECTS_VALUE_MAX[effect]['min']) * value;
+  var effectValue = (typeof value === 'undefined') ? EFFECTS_VALUE_MAX[effect]['max'] : currentValue;
   switch (effect) {
+    case 'none' :
+      return 'none';
     case 'chrome':
       return 'grayscale(' + effectValue + ')';
     case 'sepia':
