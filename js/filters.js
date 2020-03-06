@@ -19,8 +19,7 @@ var openPopup = function () {
 /* функция закрытия открытого окна */
 var closePopup = function () {
   uploadForm.classList.add('hidden');
-  imgUploadPreview.querySelector('img').removeAttribute('class');
-  imgUploadPreview.querySelector('img').classList.add('.effect-none');
+  imgForEffect.classList.add('.effect-none');
   document.removeEventListener('keydown', onPopupEscPress);
 };
 
@@ -52,7 +51,7 @@ uploadCancel.addEventListener('click', function () {
   closePopup();
 });
 
-/* закрытие и сброс при этом до класса .effect-noneпр нажатии на Enter*/
+/* закрытие и сброс при этом до класса .effect-none при нажатии на Enter*/
 uploadCancel.addEventListener('keydown', function (evt) {
   if (evt.key === ENTER_KEY) {
     closePopup();
@@ -213,8 +212,6 @@ var onHashtagChange = function () {
   hashtagText.setCustomValidity('');
 };
 
-// uploadSubmit.addEventListener('click'
-
 var validateListHashtag = function () {
   if (hashtagText.value !== '') {
     var hashtagArray = hashtagText.value.toLowerCase().split(' ');
@@ -233,5 +230,6 @@ var validateListHashtag = function () {
     }
   }
 };
+
 uploadSubmit.addEventListener('click', validateListHashtag);
 hashtagText.addEventListener('input', onHashtagChange);

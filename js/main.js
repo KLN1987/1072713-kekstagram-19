@@ -13,10 +13,9 @@ var DESCRIPTION = ['Всё отлично!', 'В целом всё неплох�
 /* имя автора комента */
 var NAME_AUTHOR = ['Лев', 'Александр', 'Игорь', 'Даниил', 'Владимир', 'Антон', 'Михаил', 'Екатерина', 'Варвара', 'София'];
 
+
 var similarListElement = document.querySelector('.pictures');
-var similarPictureTemplate = document.querySelector('#picture')
-  .content
-  .querySelector('.picture');
+var similarPictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
 /* нахождение рандомного чила */
 var getRandomElement = function (arr) {
@@ -25,7 +24,7 @@ var getRandomElement = function (arr) {
 
 /* массив аватарок */
 var numberAvatar = [];
-for (var g = 0; g <= 6; g++) {
+for (var g = 1; g <= 6; g++) {
   numberAvatar.push(g);
 }
 
@@ -83,14 +82,6 @@ pictures.forEach(function (l) {
 
 similarListElement.appendChild(fragment);
 
-/* remove-удаляет класс hidden у объекта,  add-добавлет класс */
-document.querySelector('.big-picture').classList.remove('hidden');
-document.querySelector('.social__comment-count').classList.add('hidden');
-document.querySelector('.comments-loader').classList.add('hidden');
-document.querySelector('body').classList.add('modal-open');
-document.querySelector('.social__comments').innerHtml = '';
-
-
 var bigPicture = document.querySelector('.big-picture__img');
 var bigPictureLikes = document.querySelector('.likes-count');
 var bigPictureComments = document.querySelector('.comments-count');
@@ -119,3 +110,45 @@ for (var n = 0; n < pictures[0].comments.length; n++) {
   textsComment.textContent = pictures[0].comments[n].message;
   commentsItem.appendChild(textsComment);
 }
+
+/* закрытие и открытие большой картинки */
+var picturesAll = document.querySelectorAll('.picture');
+var pictureClose = document.querySelector('.big-picture__cancel');
+
+var onBigPictureEscPress = function (evt) {
+  if (evt.key === 'Escape') {
+    closeBigPicture();
+  }
+};
+
+var openBigPicture = function () {
+  document.querySelector('.big-picture').classList.remove('hidden');
+  document.addEventListener('keydown', onBigPictureEscPress);
+};
+
+var closeBigPicture = function () {
+  document.querySelector('.big-picture').classList.add('hidden');
+  document.removeEventListener('keydown', onBigPictureEscPress);
+};
+
+pictureClose.addEventListener('click', function () {
+  closeBigPicture();
+});
+
+pictureClose.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Enter') {
+    closeBigPicture();
+  }
+});
+
+for (var p = 0; p < picturesAll.length; p++) {
+  picturesAll[p].addEventListener('click', function () {
+    openBigPicture();
+  });
+}
+
+picturesAll[p].addEventListener('keydown', function (evt) {
+  if (evt.key === 'Enter') {
+    openBigPicture();
+  }
+});
