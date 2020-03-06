@@ -2,28 +2,12 @@
 
 var ESC_KEY = 'Escape';
 var ENTER_KEY = 'Enter';
-var DEFAULT_VALUE = 100;
-var DEFAULT_VALUE_MAX = 100;
-var DEFAULT_VALUE_MIN = 25;
-var DEFAULT_VALUE_STEP = 25;
 var uploadFile = document.querySelector('#upload-file');
 var uploadCancel = document.querySelector('#upload-cancel');
 var uploadForm = document.querySelector('.img-upload__overlay');
-var scaleControlMinus = document.querySelector('.scale__control--smaller');
-var scaleControlPlus = document.querySelector('.scale__control--bigger');
-var scaleControl = document.querySelector('.scale__control--value');
 var imgUploadPreview = document.querySelector('.img-upload__preview');
-var imgUploadEffectLevel = document.querySelector('.img-upload__effect-level');
-// var spanEffect = document.querySelectorAll('.effects__preview');
 var hashtagText = document.querySelector('.text__hashtags');
 var uploadSubmit = document.querySelector('#upload-submit');
-
-/* var MAX_VALUE_EFFECT = 456;
-var MAX_GRAYSCALE = 1;
-var MAX_SEPIA = 1;
-var MAX_INVERT = 100;
-var MAX_BLUR = 3;
-var MIN_BRIGHTNES = 1;*/
 
 /* функция открытия закрытого окна */
 var openPopup = function () {
@@ -47,8 +31,6 @@ var onPopupEscPress = function (evt) {
     return false;
   } else if (evt.key === ESC_KEY) {
     closePopup();
-    // imgUploadPreview.querySelector('img').removeAttribute('class');
-    // imgUploadPreview.querySelector('img').classList.add('.effect-none');
   }
   return true;
 };
@@ -68,38 +50,41 @@ uploadFile.addEventListener('keydown', function (evt) {
 /* закрытие и сброс при этом до класса .effect-none */
 uploadCancel.addEventListener('click', function () {
   closePopup();
-  // imgUploadPreview.querySelector('img').removeAttribute('class');
-  // imgUploadPreview.querySelector('img').classList.add('.effect-none');
 });
 
 /* закрытие и сброс при этом до класса .effect-noneпр нажатии на Enter*/
 uploadCancel.addEventListener('keydown', function (evt) {
   if (evt.key === ENTER_KEY) {
     closePopup();
-    // imgUploadPreview.querySelector('img').removeAttribute('class');
-    // imgUploadPreview.querySelector('img').classList.add('.effect-none');
   }
 });
 
-/* уменьшение фото при нажатии на минус до 25% */
-scaleControlMinus.addEventListener('click', function () {
-  if (DEFAULT_VALUE > DEFAULT_VALUE_MIN) {
-    DEFAULT_VALUE = DEFAULT_VALUE - DEFAULT_VALUE_STEP;
-    scaleControl.value = DEFAULT_VALUE + '%';
-    var sizeImgUploadPreview = DEFAULT_VALUE / 100;
-    imgUploadPreview.querySelector('img').style.transform = 'scale(' + sizeImgUploadPreview + ')';
-  }
-});
+/* уменьшение или увеличение фото */
+var scaleControlValue = document.querySelector('.scale__control--value');
+var scaleControlMinus = document.querySelector('.scale__control--smaller');
+var scaleControlPlus = document.querySelector('.scale__control--bigger');
+var DEFAULT_VALUE_MAX = 100;
+var DEFAULT_VALUE_MIN = 25;
+var DEFAULT_VALUE_STEP = 25;
 
-/* увеличение фото при нажатии на минус до 100% */
-scaleControlPlus.addEventListener('click', function () {
-  if (DEFAULT_VALUE < DEFAULT_VALUE_MAX && DEFAULT_VALUE >= DEFAULT_VALUE_MIN) {
-    DEFAULT_VALUE = DEFAULT_VALUE + DEFAULT_VALUE_STEP;
-    scaleControl.value = DEFAULT_VALUE + '%';
-    var sizeImgUploadPreview = DEFAULT_VALUE / 100;
-    imgUploadPreview.querySelector('img').style.transform = 'scale(' + sizeImgUploadPreview + ')';
+var resizeImgPlus = function () {
+  if (parseInt(scaleControlValue.value, 10) < DEFAULT_VALUE_MAX && parseInt(scaleControlValue.value, 10) >= DEFAULT_VALUE_MIN) {
+    scaleControlValue.value = parseInt(scaleControlValue.value, 10) + DEFAULT_VALUE_STEP + '%';
+    imgForEffect.style.transform = 'scale(' + parseInt(scaleControlValue.value, 10) / DEFAULT_VALUE_MAX + ')';
   }
-});
+};
+
+var resizeImgMinus = function () {
+  if (parseInt(scaleControlValue.value, 10) > DEFAULT_VALUE_MIN) {
+    scaleControlValue.value = parseInt(scaleControlValue.value, 10) - DEFAULT_VALUE_STEP + '%';
+    imgForEffect.style.transform = 'scale(' + parseInt(scaleControlValue.value, 10) / DEFAULT_VALUE_MAX + ')';
+  }
+};
+
+scaleControlMinus.addEventListener('click', resizeImgMinus);
+scaleControlPlus.addEventListener('click', resizeImgPlus);
+
+/* добавление эффекта на фото*/
 
 var EFFECTS_VALUE_MAX = {
   none: 'none',
@@ -132,8 +117,8 @@ var effectLevelPin = effectLevelLine.querySelector('.effect-level__pin');
 var effectLevelDepth = effectLevelLine.querySelector('.effect-level__depth');
 var effectsRadio = document.querySelectorAll('.effects__radio');
 var currentEffect = document.querySelector('.effects__radio:checked').value;
-// var effectsLabel = document.querySelectorAll('.effects__label');
 var imgForEffect = imgUploadPreview.querySelector('img');
+var imgUploadEffectLevel = document.querySelector('.img-upload__effect-level');
 
 effectsRadio.forEach(function (effect) {
   effect.addEventListener('change', onChangeEffect);
@@ -159,7 +144,7 @@ function getEffectsStyle(effect, value) {
   var currentValue = EFFECTS_VALUE_MAX[effect]['min'] + (EFFECTS_VALUE_MAX[effect]['max'] - EFFECTS_VALUE_MAX[effect]['min']) * value;
   var effectValue = (typeof value === 'undefined') ? EFFECTS_VALUE_MAX[effect]['max'] : currentValue;
   switch (effect) {
-    case 'none' :
+    case 'none':
       return 'none';
     case 'chrome':
       return 'grayscale(' + effectValue + ')';
@@ -224,11 +209,13 @@ var validateHashtag = function (hashtag) {
   return true;
 };
 
-var onInputInput = function () {
+var onHashtagChange = function () {
   hashtagText.setCustomValidity('');
 };
 
-uploadSubmit.addEventListener('click', function () {
+// uploadSubmit.addEventListener('click'
+
+var validateListHashtag = function () {
   if (hashtagText.value !== '') {
     var hashtagArray = hashtagText.value.toLowerCase().split(' ');
     for (var i = 0; i < hashtagArray.length; i++) {
@@ -245,6 +232,6 @@ uploadSubmit.addEventListener('click', function () {
       hashtagText.setCustomValidity('Хэштегов может быть максимум 5');
     }
   }
-});
-
-hashtagText.addEventListener('input', onInputInput);
+};
+uploadSubmit.addEventListener('click', validateListHashtag);
+hashtagText.addEventListener('input', onHashtagChange);
