@@ -145,10 +145,9 @@ for (var p = 0; p < picturesAll.length; p++) {
   picturesAll[p].addEventListener('click', function () {
     openBigPicture();
   });
+  picturesAll[p].addEventListener('keydown', function (evt) {
+    if (evt.key === 'Enter') {
+      openBigPicture();
+    }
+  });
 }
-
-picturesAll[p].addEventListener('keydown', function (evt) {
-  if (evt.key === 'Enter') {
-    openBigPicture();
-  }
-});

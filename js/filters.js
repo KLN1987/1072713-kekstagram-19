@@ -35,9 +35,7 @@ var onPopupEscPress = function (evt) {
 };
 
 /* открытие формы */
-uploadFile.addEventListener('change', function () {
-  openPopup();
-});
+uploadFile.addEventListener('click', openPopup);
 
 /* открытие с клавиатуры через Enter */
 uploadFile.addEventListener('keydown', function (evt) {
@@ -47,9 +45,7 @@ uploadFile.addEventListener('keydown', function (evt) {
 });
 
 /* закрытие и сброс при этом до класса .effect-none */
-uploadCancel.addEventListener('click', function () {
-  closePopup();
-});
+uploadCancel.addEventListener('click', closePopup);
 
 /* закрытие и сброс при этом до класса .effect-none при нажатии на Enter*/
 uploadCancel.addEventListener('keydown', function (evt) {
@@ -66,7 +62,24 @@ var DEFAULT_VALUE_MAX = 100;
 var DEFAULT_VALUE_MIN = 25;
 var DEFAULT_VALUE_STEP = 25;
 
-var resizeImgPlus = function () {
+var resizeImg = function (evt) {
+  var elem = evt.target;
+  var curValue = parseInt(scaleControlValue.value, 10);
+  var newContorlValue = curValue;
+
+  if (elem.classList.contains('scale__control--smaller')) {
+    newContorlValue = curValue - DEFAULT_VALUE_STEP;
+  } else {
+    newContorlValue = curValue + DEFAULT_VALUE_STEP;
+  }
+  if (newContorlValue > DEFAULT_VALUE_MAX || newContorlValue < DEFAULT_VALUE_MIN) {
+    return;
+  }
+  scaleControlValue.value = newContorlValue + '%';
+  imgForEffect.style.transform = 'scale(' + newContorlValue / DEFAULT_VALUE_MAX + ')';
+};
+
+/* var resizeImgPlus = function () {
   if (parseInt(scaleControlValue.value, 10) < DEFAULT_VALUE_MAX && parseInt(scaleControlValue.value, 10) >= DEFAULT_VALUE_MIN) {
     scaleControlValue.value = parseInt(scaleControlValue.value, 10) + DEFAULT_VALUE_STEP + '%';
     imgForEffect.style.transform = 'scale(' + parseInt(scaleControlValue.value, 10) / DEFAULT_VALUE_MAX + ')';
@@ -78,10 +91,10 @@ var resizeImgMinus = function () {
     scaleControlValue.value = parseInt(scaleControlValue.value, 10) - DEFAULT_VALUE_STEP + '%';
     imgForEffect.style.transform = 'scale(' + parseInt(scaleControlValue.value, 10) / DEFAULT_VALUE_MAX + ')';
   }
-};
+};*/
 
-scaleControlMinus.addEventListener('click', resizeImgMinus);
-scaleControlPlus.addEventListener('click', resizeImgPlus);
+scaleControlMinus.addEventListener('click', resizeImg);
+scaleControlPlus.addEventListener('click', resizeImg);
 
 /* добавление эффекта на фото*/
 
