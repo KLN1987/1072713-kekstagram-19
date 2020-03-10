@@ -35,7 +35,7 @@ var onPopupEscPress = function (evt) {
 };
 
 /* открытие формы */
-uploadFile.addEventListener('click', openPopup);
+uploadFile.addEventListener('change', openPopup);
 
 /* открытие с клавиатуры через Enter */
 uploadFile.addEventListener('keydown', function (evt) {
@@ -78,20 +78,6 @@ var resizeImg = function (evt) {
   scaleControlValue.value = newContorlValue + '%';
   imgForEffect.style.transform = 'scale(' + newContorlValue / DEFAULT_VALUE_MAX + ')';
 };
-
-/* var resizeImgPlus = function () {
-  if (parseInt(scaleControlValue.value, 10) < DEFAULT_VALUE_MAX && parseInt(scaleControlValue.value, 10) >= DEFAULT_VALUE_MIN) {
-    scaleControlValue.value = parseInt(scaleControlValue.value, 10) + DEFAULT_VALUE_STEP + '%';
-    imgForEffect.style.transform = 'scale(' + parseInt(scaleControlValue.value, 10) / DEFAULT_VALUE_MAX + ')';
-  }
-};
-
-var resizeImgMinus = function () {
-  if (parseInt(scaleControlValue.value, 10) > DEFAULT_VALUE_MIN) {
-    scaleControlValue.value = parseInt(scaleControlValue.value, 10) - DEFAULT_VALUE_STEP + '%';
-    imgForEffect.style.transform = 'scale(' + parseInt(scaleControlValue.value, 10) / DEFAULT_VALUE_MAX + ')';
-  }
-};*/
 
 scaleControlMinus.addEventListener('click', resizeImg);
 scaleControlPlus.addEventListener('click', resizeImg);
