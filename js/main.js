@@ -4,7 +4,7 @@ var LENGTH_ARR_PHOTO = 25;
 var LIKE_START = 15;
 var LIKE_END = 200;
 var LENGTH_ARR_PICTURE = 25;
-var COUNT_OF_COMMENTS = 3;
+var COUNT_OF_COMMENTS = 5;
 
 /* массив комментариев*/
 var DESCRIPTION = ['Всё отлично!', 'В целом всё неплохо. Но не всё.', 'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -16,10 +16,6 @@ var NAME_AUTHOR = ['Лев', 'Александр', 'Игорь', 'Даниил',
 
 var similarListElement = document.querySelector('.pictures');
 var similarPictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
-var bigPicture = document.querySelector('.big-picture__img');
-// var bigPictureLikes = document.querySelector('.likes-count');
-// var bigPictureComments = document.querySelector('.comments-count');
-// var bigPictureDescription = document.querySelector('.social__caption');
 
 /* нахождение рандомного чила */
 var getRandomElement = function (arr) {
@@ -66,48 +62,26 @@ for (var k = 0; k < LENGTH_ARR_PICTURE; k++) {
   };
   pictures.push(randomPicture);
 }
-
 /* функция добавляет в template, случайныt картиками, кол-вом лайков, и комментов  */
 var renderPicture = function (picture) {
   var pictureElement = similarPictureTemplate.cloneNode(true);
 
   pictureElement.querySelector('.picture__img').src = picture.url;
   pictureElement.querySelector('.picture__likes').textContent = picture.like;
-  pictureElement.querySelector('.picture__comments').textContent = picture.message;
+  // pictureElement.querySelector('.picture__comments').textContent = picture.message;
 
   return pictureElement;
 };
 
 
-/* создает фрагмент в DOM и вставляем в разметку, полученный ранее template */
-var fragment = document.createDocumentFragment();
-pictures.forEach(function (l) {
-  fragment.appendChild(renderPicture(l));
-});
-
-similarListElement.appendChild(fragment);
-
-var commentsList = document.querySelector('.social__comments');
-commentsList.textContent = '';
-
-/* создается цикл который при открытии большой фотки добавляет случайные лайки, комменты, имя, аватар */
-for (var n = 0; n < COUNT_OF_COMMENTS; n++) {
-  var commentsItem = document.createElement('li');
-  commentsItem.classList.add('social__comment');
-  commentsList.appendChild(commentsItem);
-  var socialPicture = document.createElement('img');
-  socialPicture.classList.add('social__picture');
-  socialPicture.src = pictures[n].comments[n].avatar;
-  socialPicture.alt = pictures[n].comments[n].name;
-  commentsItem.appendChild(socialPicture);
-  var textsComment = document.createElement('p');
-  textsComment.textContent = pictures[n].comments[n].message;
-  commentsItem.appendChild(textsComment);
-}
-
 /* закрытие и открытие большой картинки */
-var picturesAll = document.querySelectorAll('.picture__img');
+
 var pictureClose = document.querySelector('.big-picture__cancel');
+var bigPicture = document.querySelector('.big-picture__img').getElementsByTagName('img');
+var likesCount = document.querySelector('.likes-count');
+var socialCaption = document.querySelector('.social__caption');
+var socialPicture = document.querySelectorAll('.social__picture');
+var socialText = document.querySelectorAll('.social__text');
 
 var onBigPictureEscPress = function (evt) {
   if (evt.key === 'Escape') {
@@ -133,17 +107,27 @@ pictureClose.addEventListener('keydown', function (evt) {
   }
 });
 
+/* отрытие окна с фото и комментариями */
 
-for (var p = 0; p < picturesAll.length; p++) {
-  picturesAll[p].addEventListener('change', function () {
-    var xyz = picturesAll[p].src;
-    bigPicture.querySelector('img').src = xyz;
+var fragment = document.createDocumentFragment();
+
+pictures.forEach(function (item) {
+  var imger = fragment.appendChild(renderPicture(item));
+  similarListElement.appendChild(imger);
+  imger.addEventListener('click', function () {
+    bigPicture[0].src = imger.getElementsByTagName('img')[0].src;
+    socialCaption.textContent = comments[getRandomElement(comments)].message;
+    socialText[getRandomElement(socialText)].innerHTML = comments[getRandomElement(comments)].message;
+    likesCount.textContent = imger.querySelector('.picture__likes').textContent;
+    for (var p = 0; p < socialPicture.length; p++) {
+      socialPicture[p].src = comments[getRandomElement(comments)].avatar;
+      socialPicture[p].alt = comments[getRandomElement(comments)].name;
+    }
     openBigPicture();
   });
-
-  picturesAll[p].addEventListener('keydown', function (evt) {
+  imger.addEventListener('keydown', function (evt) {
     if (evt.key === 'Enter') {
       openBigPicture();
     }
   });
-}
+});
